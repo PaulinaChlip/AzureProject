@@ -1,10 +1,13 @@
 # Databricks notebook source
 # Konfiguracja połączenia JDBC z Azure SQL
-jdbcHostname = "pc414961parkingcapacitydatabase.database.windows.net"
-jdbcDatabase = "pc414961parkingcapacitydb"
+import os
+
+jdbcHostname = os.environ["SQL_HOST"]
+jdbcDatabase = os.environ["SQL_DB"]
+username = os.environ["SQL_USERNAME"]
+password = os.environ["SQL_PASSWORD"]
+
 jdbcPort = 1433
-username = "pc414961"
-password = "Cani:7gyp!" # W praktyce użyj Azure Key Vault!
 jdbcUrl = f"jdbc:sqlserver://{jdbcHostname}:{jdbcPort};database={jdbcDatabase}"
 
 
