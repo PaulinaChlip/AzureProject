@@ -2,7 +2,7 @@
 Ten projekt zawiera:
 - Infrastruktura jako kod (Terraform) w katalogu `iac/`
 - Skrypt Python do wysyłania zdarzeń do Azure Event Hub (`scripts/send_events.py`)
-- CIw GitHub Actions sprawdzający poprawność Terraform i Pythona
+- CI w GitHub Actions sprawdzający poprawność Terraform i Pythona
 
 ## Struktura repozytorium
 ```
