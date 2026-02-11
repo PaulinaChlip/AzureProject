@@ -12,31 +12,29 @@ EVENTHUB_NAME = os.environ["EVENTHUB_NAME"]
 
 async def run():
     producer = EventHubProducerClient.from_connection_string(
-        conn_str=CONNECTION_STR, 
+        conn_str=CONNECTION_STR,
         #eventhub_name=EVENTHUB_NAME
     )
-    current_time = datetime(2026, 2, 9, 6, 0, tzinfo=timezone.utc)  # start
+    current_time = datetime(2026, 2, 9, 6, 0, tzinfo=timezone.utc)
     
     async with producer:
         for i in range(100):
             event_time = current_time.isoformat()
-            occupied_prob = random.uniform(0, 1) 
+            occupied_prob = random.uniform(0, 1)
             for j in range(20):
                 event_data_batch = await producer.create_batch()
-                status = random.choices(["occupied", "free"], 
-                                        weights=[occupied_prob, 1-occupied_prob])[0]  
+                status = random.choices(["occupied", "free"],
+                            weights=[occupied_prob, 1-occupied_prob])[0]
                 event_body = {
                     "id": f"S{j}",
                     "status": status,
                     "event_time": event_time
                 }
-                #event_body = {"id": i, "message": f"Event number {i}"}
                 event_data_batch.add(EventData(json.dumps(event_body)))
                 await producer.send_batch(event_data_batch)
                 print(f"Sent event for spot {event_body['id']}")
-            current_time += timedelta(hours=1) 
+            current_time += timedelta(hours=1)
             if current_time.hour > 22:
                 current_time += timedelta(hours=7)
             await asyncio.sleep(3)
-            
 asyncio.run(run())
