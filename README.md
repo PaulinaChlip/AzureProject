@@ -12,7 +12,7 @@ root/
 │  └─ requirements.txt
 ├─ notebooks/
 │  ├─ aggregateData.py       
-│  └─ dailytasktrigger.py 
+│  └─ daily_task_trigger.py 
 └─ iac/
    ├─ main.tf
    ├─ variables.tf
