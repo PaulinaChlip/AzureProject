@@ -37,18 +37,20 @@ root/
     ```
 
 3. Upewnij się, że dostosowałeś nazwy zmiennych środowiskowych do swojego środowiska
-    
-4. Uruchom skrypt
-    ```bash
-    python scripts/send_events.py
-    ```
-
-5. W katalogu iac/ możesz testować Terraform:
+   
+4. W katalogu iac/ możesz testować Terraform. Pamiętaj o dostosowaniu nazw zasobów i reguł w pliku terraaform.tfvars:
    ```bash
    cd iac
    terraform init
    terraform validate
    terraform plan -var-file="terraform.tfvars"
+    
+5. Uruchom skrypt
+    ```bash
+    python scripts/send_events.py
+    ```
+
+
    ```
 
 ## Dalszy przebieg projektu
