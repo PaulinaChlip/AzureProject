@@ -4,8 +4,8 @@ import os
 
 jdbcHostname = os.environ["SQL_HOST"]
 jdbcDatabase = os.environ["SQL_DB"]
-username = os.environ["SQL_USERNAME"]
-password = os.environ["SQL_PASSWORD"]
+username = os.environ["SQL_DATABASE_LOGIN"]
+password = os.environ["SQL_DATABASE_PASSWORD"]
 
 jdbcPort = 1433
 jdbcUrl = f"jdbc:sqlserver://{jdbcHostname}:{jdbcPort};database={jdbcDatabase}"
