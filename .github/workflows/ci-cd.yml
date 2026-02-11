@@ -1,1 +1,63 @@
+name: CI/CD Pipeline
 
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    
+    env:
+      # Pamiętaj, że nazwy zmiennych tutaj muszą pasować do tych w skrypcie Pythona
+      EVENTHUB_CONNECTION_STRING: ${{ secrets.CONNECTION_STR }}
+      RESOURCE_GROUP: iad-lab-rg
+      EVENTHUB_NAMESPACE: pc414961namespace
+      EVENTHUB_NAME: inputstream
+
+    steps:
+      # 1. Pobranie kodu
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Konfiguracja Pythona
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # 3. Instalacja bibliotek
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Upewniamy się, że mamy bibliotekę do Event Huba
+          pip install azure-eventhub azure-identity
+
+      # 4. Logowanie do Azure (wymagane też do sprawdzenia metryk)
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # 5. Uruchomienie skryptu wysyłającego dane
+      - name: Send events to Event Hub
+        run: |
+          echo "Uruchamiam skrypt wysyłający dane..."
+          python scripts/send_events.py
+          echo "Skrypt zakończony."
+
+      # 6. WERYFIKACJA: Sprawdzenie metryk w Azure
+      # Czekamy chwilę (metrics pipeline ma opóźnienie ok. 1-2 min), a potem pytamy Azure czy coś wpadło.
+      - name: Verify Event Hub Incoming Messages
+        run: |
+          echo "Czekam 60 sekund na aktualizację metryk Azure..."
+          sleep 60
+          
+          # Pobieramy ID Event Huba
+          EH_ID=$(az eventhubs eventhub show --resource-group ${{ env.RESOURCE_GROUP }} --namespace-name ${{ env.EVENTHUB_NAMESPACE }} --name ${{ env.EVENTHUB_NAME }} --query id --output tsv)
+          
+          # Sprawdzamy metrykę IncomingMessages z ostatnich 5 minut
+          echo "Sprawdzam metryki dla: $EH_ID"
+          az monitor metrics list --resource $EH_ID --metric "IncomingMessages" --interval PT1M --top 5 --query "value[0].timeseries[0].data[-5:]" --output table
