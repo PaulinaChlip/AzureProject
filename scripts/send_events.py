@@ -12,19 +12,18 @@ EVENTHUB_NAME = os.environ["EVENTHUB_NAME"]
 
 async def run():
     producer = EventHubProducerClient.from_connection_string(
-        conn_str=CONNECTION_STR,
-        #eventhub_name=EVENTHUB_NAME
+        conn_str=CONNECTION_STR
     )
     current_time = datetime(2026, 2, 9, 6, 0, tzinfo=timezone.utc)
-    
     async with producer:
         for i in range(100):
             event_time = current_time.isoformat()
             occupied_prob = random.uniform(0, 1)
             for j in range(20):
                 event_data_batch = await producer.create_batch()
+                weights=[occupied_prob, 1-occupied_prob]
                 status = random.choices(["occupied", "free"],
-                            weights=[occupied_prob, 1-occupied_prob])[0]
+                                        weights=weights)[0]
                 event_body = {
                     "id": f"S{j}",
                     "status": status,
