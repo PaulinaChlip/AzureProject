@@ -36,7 +36,7 @@ root/
     pip install -r scripts/requirements.txt
     ```
 
-3. Upewnij się, że nazwy zmiennych środowiskowych do dopasowane od indywidualnego środowiska
+3. Upewnij się, że nazwy zmiennych środowiskowych są dopasowane od indywidualnego środowiska. **UWAGA**, aby projekt mógł zadziałać, należy dodać fragment pozwalający na zalogowanie w Azure z komendą az login. Tutaj nie zostało to dodane z powodu ograniczeń konta studenckiego.
    
 4. W katalogu iac/ możesz testować Terraform. Pamiętaj o dostosowaniu nazw zasobów i reguł w pliku terraaform.tfvars:
    ```bash
