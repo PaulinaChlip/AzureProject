@@ -5,7 +5,7 @@ Ten projekt zawiera:
 - CIw GitHub Actions sprawdzający poprawność Terraform i Pythona
 
 ## Struktura repozytorium
-
+```
 root/
 ├─ scripts/
 │  ├─ send_events.py       
@@ -17,6 +17,7 @@ root/
    ├─ main.tf
    ├─ variables.tf
    └─ terraform.tfvars
+```
 
 ## Wymagania
 - GitHub Actions do CI
@@ -31,16 +32,22 @@ root/
    cd <repo-folder>
    ```
 2. Zainstaluj zależnści Pythona
-  pip install -r scripts/requirements.txt
+    ```bash
+    pip install -r scripts/requirements.txt
+    ```
 
-3. Uruchom skrypt
-  python scripts/send_events.py
+4. Uruchom skrypt
+    ```bash
+    python scripts/send_events.py
+    ```
 
-4. W katalogu iac/ możesz testować Terraform:
-  cd iac
-  terraform init
-  terraform validate
-  terraform plan -var-file="terraform.tfvars"
+6. W katalogu iac/ możesz testować Terraform:
+   ```bash
+   cd iac
+   terraform init
+   terraform validate
+   terraform plan -var-file="terraform.tfvars"
+   ```
 
 ## Dalszy przebieg projektu
 W dalszych krokach można skonfigurować analizowanie przeysłanego przez skrypt potoku danych, np. poprzez Databricks (w repozytorium załączony jest gotowy notatnik wykonujący agregację w Databricks).
