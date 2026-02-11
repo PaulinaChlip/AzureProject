@@ -21,7 +21,7 @@ async def run():
             occupied_prob = random.uniform(0, 1)
             for j in range(20):
                 event_data_batch = await producer.create_batch()
-                weights=[occupied_prob, 1-occupied_prob]
+                weights = [occupied_prob, 1-occupied_prob]
                 status = random.choices(["occupied", "free"],
                                         weights=weights)[0]
                 event_body = {
