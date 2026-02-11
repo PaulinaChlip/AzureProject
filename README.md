@@ -36,12 +36,14 @@ root/
     pip install -r scripts/requirements.txt
     ```
 
+3. Upewnij się, że dostosowałeś nazwy zmiennych środowiskowych do swojego środowiska
+    
 4. Uruchom skrypt
     ```bash
     python scripts/send_events.py
     ```
 
-6. W katalogu iac/ możesz testować Terraform:
+5. W katalogu iac/ możesz testować Terraform:
    ```bash
    cd iac
    terraform init
