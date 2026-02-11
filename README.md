@@ -31,7 +31,7 @@ root/
    git clone <repo-url>
    cd <repo-folder>
    ```
-2. Zainstaluj zależnści Pythona
+2. Zainstaluj zależności Pythona
     ```bash
     pip install -r scripts/requirements.txt
     ```
