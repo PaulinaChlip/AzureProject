@@ -8,7 +8,7 @@ from azure.eventhub import EventData
 
 #CONNECTION_STR = os.getenv("CONNECTION_STR")
 #EVENTHUB_NAME = os.getenv("EVENTHUB_NAME")
-CONNECTION_STR = os.environ["EVENTHUB_CONN"]
+CONNECTION_STR = os.environ["CONNECTION_STR"]
 EVENTHUB_NAME = os.environ["EVENTHUB_NAME"]
 
 
