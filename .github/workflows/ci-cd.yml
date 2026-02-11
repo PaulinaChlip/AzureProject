@@ -35,12 +35,6 @@ jobs:
           # Upewniamy się, że mamy bibliotekę do Event Huba
           pip install azure-eventhub azure-identity
 
-      # 4. Logowanie do Azure (wymagane też do sprawdzenia metryk)
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       # 5. Uruchomienie skryptu wysyłającego dane
       - name: Send events to Event Hub
         run: |
