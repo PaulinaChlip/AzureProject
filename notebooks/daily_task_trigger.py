@@ -7,7 +7,7 @@ from databricks.sdk.service.jobs import JobSettings as Job
 
 New_Job_Feb_11_2026_02_18_PM = Job.from_dict(
     {
-        "name": "New Job Feb 11, 2026, 02:18 PM",
+        "name": "AutomatedAggregation",
         "schedule": {
             "quartz_cron_expression": "0 0 23 * * ?",
             "timezone_id": "Europe/Warsaw",
@@ -36,3 +36,4 @@ from databricks.sdk import WorkspaceClient
 w = WorkspaceClient()
 w.jobs.reset(new_settings=New_Job_Feb_11_2026_02_18_PM, job_id=496155559796299)
 # or create a new job using: w.jobs.create(**New_Job_Feb_11_2026_02_18_PM.as_shallow_dict())
+
