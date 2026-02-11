@@ -48,6 +48,7 @@ resource "azurerm_eventhub_namespace" "namespace" {
       network_rulesets
     ]
   }
+}
 
 resource "azurerm_eventhub" "inputstream" {
   name                = var.eventhub_name
@@ -65,17 +66,6 @@ resource "azurerm_eventhub_authorization_rule" "listenrule" {
 
   listen = true
   send   = false
-  manage = false
-}
-
-resource "azurerm_eventhub_authorization_rule" "sendrule" {
-  name                = var.eventhub_send_policy_name
-  namespace_name      = azurerm_eventhub_namespace.namespace.name
-  eventhub_name       = azurerm_eventhub.inputstream.name
-  resource_group_name = data.azurerm_resource_group.rg.name
-
-  listen = false
-  send   = true
   manage = false
 }
 
