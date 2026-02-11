@@ -18,7 +18,7 @@ provider "azurerm" {
 #}
 
 data "azurerm_resource_group" "rg" {
-  name     = "iad-lab-rg"
+  name = var.resource_group_name
 }
 
 resource "random_string" "random" {
@@ -35,55 +35,60 @@ resource "random_string" "random" {
  # account_replication_type = "LRS" # Locally-redundant storage (najtańsza opcja)
 #}
 
-# Event Hub Namespace
 resource "azurerm_eventhub_namespace" "namespace" {
-  name                = "pc414961namespace"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  sku                 = "Basic"
-  capacity            = 1
-  
+  name                = var.eventhub_namespace_name
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  sku                 = var.eventhub_namespace_sku
+  capacity            = var.eventhub_namespace_capacity
+
   lifecycle {
     ignore_changes = [
       zone_redundant,
       network_rulesets
     ]
   }
-}
 
-# Event Hub w namespace
 resource "azurerm_eventhub" "inputstream" {
-  name                = "inputstream"
+  name                = var.eventhub_name
   namespace_name      = azurerm_eventhub_namespace.namespace.name
-  resource_group_name = azurerm_resource_group.rg.name
-  partition_count     = 1
-  message_retention   = 1
+  resource_group_name = data.azurerm_resource_group.rg.name
+  partition_count     = var.eventhub_partition_count
+  message_retention   = var.eventhub_message_retention
 }
 
-# Authorization Rule do nasłuchu (Listen)
 resource "azurerm_eventhub_authorization_rule" "listenrule" {
-  name                = "parkingdatastreamanalytics_eventhubinput_policy"
+  name                = var.eventhub_listen_policy_name
   namespace_name      = azurerm_eventhub_namespace.namespace.name
   eventhub_name       = azurerm_eventhub.inputstream.name
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.rg.name
 
   listen = true
   send   = false
   manage = false
 }
 
-# Authorization Rule do wysyłki (Send)
 resource "azurerm_eventhub_authorization_rule" "sendrule" {
-  name                = "myparkingadmin"
+  name                = var.eventhub_send_policy_name
   namespace_name      = azurerm_eventhub_namespace.namespace.name
   eventhub_name       = azurerm_eventhub.inputstream.name
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.rg.name
 
   listen = false
   send   = true
   manage = false
 }
 
+resource "azurerm_eventhub_authorization_rule" "sendrule" {
+  name                = var.eventhub_send_policy_name
+  namespace_name      = azurerm_eventhub_namespace.namespace.name
+  eventhub_name       = azurerm_eventhub.inputstream.name
+  resource_group_name = data.azurerm_resource_group.rg.name
+
+  listen = false
+  send   = true
+  manage = false
+}
 
 
 # Wyjście connection string (sensitive)
