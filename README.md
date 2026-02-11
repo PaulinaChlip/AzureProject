@@ -50,9 +50,6 @@ root/
     python scripts/send_events.py
     ```
 
-
-   ```
-
 ## Dalszy przebieg projektu
 W dalszych krokach można skonfigurować analizowanie przeysłanego przez skrypt potoku danych, np. poprzez Databricks (w repozytorium załączony jest gotowy notatnik wykonujący agregację w Databricks).
 
