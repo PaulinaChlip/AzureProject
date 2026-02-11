@@ -36,7 +36,7 @@ root/
     pip install -r scripts/requirements.txt
     ```
 
-3. Upewnij się, że dostosowałeś nazwy zmiennych środowiskowych do swojego środowiska
+3. Upewnij się, że nazwy zmiennych środowiskowych do dopasowane od indywidualnego środowiska
    
 4. W katalogu iac/ możesz testować Terraform. Pamiętaj o dostosowaniu nazw zasobów i reguł w pliku terraaform.tfvars:
    ```bash
