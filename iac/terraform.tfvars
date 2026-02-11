@@ -1,0 +1,5 @@
+resource_group_name         = "iad-lab-rg"
+eventhub_namespace_name     = "pc414961namespace"
+eventhub_name               = "inputstream"
+eventhub_listen_policy_name = "parkingdatastreamanalytics_eventhubinput_policy"
+eventhub_send_policy_name   = "myparkingadmin"
